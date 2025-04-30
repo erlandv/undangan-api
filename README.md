@@ -1,5 +1,8 @@
 # Undangan API
-**KAMU** merupakan sebuah framework PHP sederhana untuk backend API website undangan digital [https://github.com/erlandv/undangan-digital/](https://github.com/erlandv/undangan-digital/), memberikan pengalaman seolah-olah berada di localhost meskipun dalam mode production. Dibantu dengan **SAYA**, sebuah konsol yang membantu pengembangan aplikasi secara efisien.
+**Kamu** merupakan sebuah framework PHP sederhana untuk backend API web [Undangan Digital](https://github.com/erlandv/undangan-digital/), framework ini memberikan pengalaman seolah-olah berada di localhost meskipun dalam mode production. Dibantu dengan **Saya**, sebuah konsol yang membantu pengembangan aplikasi secara efisien.
+
+## License
+[Undangan API](https://github.com/erlandv/undangan-api) is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Credit
-Dibuat oleh [dewanakl](https://github.com/dewanakl)
+Created by [dewanakl](https://github.com/dewanakl).
