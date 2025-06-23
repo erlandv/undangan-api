@@ -11,7 +11,7 @@ final class Comment extends Model
     protected $table = 'comments';
 
     protected $fillable = [
-        'owner_id',
+        'user_id',
         'name',
         'presence',
         'comment',

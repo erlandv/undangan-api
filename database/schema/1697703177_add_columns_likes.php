@@ -16,10 +16,10 @@ return new class implements Migration
         Schema::table('likes', function (Table $table) {
             $table->addColumn(function (Table $table) {
 
-                $table->integer('owner_id')->nullable();
+                $table->integer('user_id')->nullable();
             });
 
-            $table->foreign('owner_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
 
@@ -31,8 +31,8 @@ return new class implements Migration
     public function down()
     {
         Schema::table('likes', function (Table $table) {
-            $table->dropForeign('owner_id');
-            $table->dropColumn('owner_id');
+            $table->dropForeign('user_id');
+            $table->dropColumn('user_id');
         });
     }
 };

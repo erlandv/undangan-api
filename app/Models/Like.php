@@ -11,6 +11,6 @@ final class Like extends Model
     protected $fillable = [
         'uuid',
         'comment_id',
-        'owner_id',
+        'user_id',
     ];
 }

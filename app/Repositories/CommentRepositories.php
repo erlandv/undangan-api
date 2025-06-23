@@ -17,14 +17,14 @@ class CommentRepositories implements CommentContract
         ]);
     }
 
-    public function getAll(int $owner_id, int $limit, int $offset): Model
+    public function getAll(int $user_id, int $limit, int $offset): Model
     {
         return Comment::with('comments')
             ->select([
                 'uuid', 'name', 'presence', 'comment', 'is_admin', 'created_at',
                 ...(!empty(auth()->user()->is_admin) ? ['ip', 'own', 'user_agent'] : [])
             ])
-            ->where('owner_id', $owner_id)
+            ->where('user_id', $user_id)
             ->whereNull('parent_id')
             ->orderBy('id', 'DESC')
             ->limit(abs($limit))
@@ -32,18 +32,18 @@ class CommentRepositories implements CommentContract
             ->get();
     }
 
-    public function getByUuid(int $owner_id, string $uuid): Model
+    public function getByUuid(int $user_id, string $uuid): Model
     {
         return Comment::where('uuid', $uuid)
-            ->where('owner_id', $owner_id)
+            ->where('user_id', $user_id)
             ->limit(1)
             ->first();
     }
 
-    public function getByOwnId(int $owner_id, string $own_id): Model
+    public function getByOwnId(int $user_id, string $own_id): Model
     {
         return Comment::where('own', $own_id)
-            ->where('owner_id', $owner_id)
+            ->where('user_id', $user_id)
             ->limit(1)
             ->first();
     }
@@ -55,18 +55,18 @@ class CommentRepositories implements CommentContract
 
     public function countCommentByUserID(int $id): int
     {
-        return Comment::where('owner_id', $id)->count('id', 'comments')->first()->comments;
+        return Comment::where('user_id', $id)->count('id', 'comments')->first()->comments;
     }
 
     public function countPresenceByUserID(int $id): Model
     {
-        return Comment::where('owner_id', $id)
+        return Comment::where('user_id', $id)
             ->whereNull('parent_id')
             ->where(function ($query) {
                 $query->where('is_admin', false)
                     ->whereNull('is_admin', 'OR');
             })
-            ->groupBy('owner_id')
+            ->groupBy('user_id')
             ->select([
                 'SUM(CASE WHEN presence = TRUE THEN 1 ELSE 0 END) AS present_count',
                 'SUM(CASE WHEN presence = FALSE THEN 1 ELSE 0 END) AS absent_count'
@@ -77,7 +77,7 @@ class CommentRepositories implements CommentContract
     public function downloadCommentByUserID(int $id): Model
     {
         return Comment::leftJoin('likes', 'comments.uuid', 'likes.comment_id')
-            ->where('comments.owner_id', $id)
+            ->where('comments.user_id', $id)
             ->groupBy([
                 'comments.uuid',
                 'comments.name',
