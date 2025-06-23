@@ -8,19 +8,19 @@ use Ramsey\Uuid\Uuid;
 
 class LikeRepositories implements LikeContract
 {
-    public function create(int $user_id, string $comment_id): Model
+    public function create(int $owner_id, string $comment_id): Model
     {
         return Like::create([
             'uuid' => Uuid::uuid4()->toString(),
             'comment_id' => $comment_id,
-            'user_id' => $user_id
+            'owner_id' => $owner_id
         ]);
     }
 
-    public function getByUuid(int $user_id, string $uuid): Model
+    public function getByUuid(int $owner_id, string $uuid): Model
     {
         return Like::where('uuid', $uuid)
-            ->where('user_id', $user_id)
+            ->where('owner_id', $owner_id)
             ->limit(1)
             ->first();
     }
@@ -32,6 +32,6 @@ class LikeRepositories implements LikeContract
 
     public function countLikeByUserID(int $id): int
     {
-        return Like::where('user_id', $id)->count('id', 'likes')->first()->likes;
+        return Like::where('owner_id', $id)->count('id', 'likes')->first()->likes;
     }
 }

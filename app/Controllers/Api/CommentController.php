@@ -177,7 +177,7 @@ class CommentController extends Controller
 
         $comment = $this->comment->create([
             ...$valid->except(['id']),
-            'user_id' => Auth::id(),
+            'owner_id' => Auth::id(),
             'parent_id' => $valid->id,
             'is_admin' => !empty(auth()->user()->is_admin)
         ]);
