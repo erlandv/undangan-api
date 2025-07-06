@@ -15,8 +15,20 @@ if (!filter_var($ip, FILTER_VALIDATE_IP)) {
     exit;
 }
 
-$url = "https://freeipapi.com/api/json/$ip";
+$cacheDir = __DIR__ . '/cache';
+$cacheFile = $cacheDir . '/' . md5($ip) . '.json';
+$cacheTtl = 86400;
 
+if (!file_exists($cacheDir)) {
+    mkdir($cacheDir, 0755, true);
+}
+
+if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < $cacheTtl) {
+    echo file_get_contents($cacheFile);
+    exit;
+}
+
+$url = "https://freeipapi.com/api/json/$ip";
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -31,4 +43,7 @@ if (curl_errno($ch)) {
 }
 
 curl_close($ch);
+
+file_put_contents($cacheFile, $response);
+
 echo $response;
