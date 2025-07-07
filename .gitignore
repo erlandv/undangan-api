@@ -3,6 +3,7 @@
 /cache/queue/*.key
 /cache/routes/*.key
 # /cache/views/*.key
+/public/cache/*.json
 /node_modules
 /shared/*.key
 /vendor
